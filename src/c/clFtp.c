@@ -7,6 +7,28 @@
 #include <arpa/inet.h> 
 #include <stdlib.h> 
 
+int enviarMensajes(int socket_desc){
+	char *message;
+	int valread;
+	printf("Ingrese el mensaje que desea enviar: ");
+	scanf("%s",&message);
+	printf("\n");
+
+	if( send(socket_desc , message , strlen(message) , 0) < 0)
+	{
+		puts("Send failed");
+		return 1;
+	}
+	
+	puts("Data Send\n");
+
+	valread = read(socket_desc, buffer, 1024); 
+
+    printf("Logré leer: %d. %s\n",valread, buffer );
+
+	return 0;
+}
+
 int main(int argc , char *argv[])
 {
     //SOCKET CREATION
@@ -53,19 +75,8 @@ int main(int argc , char *argv[])
 	puts("Connected");
 	
     //Send some data
-	message = "Prueba mensaje.\n";
-	
-	if( send(socket_desc , message , strlen(message) , 0) < 0)
-	{
-		puts("Send failed");
-		return 1;
-	}
-	
-	puts("Data Send\n");
-	
-	valread = read(socket_desc, buffer, 1024); 
-
-    printf("Logré leer: %d. %s\n",valread, buffer ); 
+	enviarMensajes(socket_desc);	
+	 
 
 	return 0;
 }
