@@ -7,7 +7,7 @@
 #include <arpa/inet.h> 
 
 int leerMensajes(int new_socket, char message[], int server_fd){
-    int valread;
+
     char *quitMSG = "El cliente se desconecto";
      
 
@@ -23,6 +23,9 @@ int leerMensajes(int new_socket, char message[], int server_fd){
 	    close(new_socket);
         return 0;
     }
+
+    printf("Mensaje recibido: %s\n", message);
+    return 0;
         
 }
 
