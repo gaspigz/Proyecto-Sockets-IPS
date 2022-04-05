@@ -8,8 +8,9 @@
 #include <stdlib.h> 
 
 int enviarMensajes(int socket_desc){
-	char *message;
+	char message[1000];
 	int valread;
+	char buffer[1024] = {0}; //Para almacenar mensajes recibidos
 	printf("Ingrese el mensaje que desea enviar: ");
 	scanf("%s",&message);
 	printf("\n");
@@ -34,15 +35,10 @@ int main(int argc , char *argv[])
     //SOCKET CREATION
 	int socket_desc; //ESTA ES LA DESCRIPCION DEL SOCKET QUE SE CREA CON socket()
 	
-    char *message;
-	
     char *ip_mandada;
 	
     int puerto_mandado; //En este trabajo, se pidió que sea el 21
 	
-	int valread; //La cantidad de caracteres que leyó
-	
-	char buffer[1024] = {0}; //Para almacenar mensajes recibidos
     
     //PASAMOS DATOS POR ARGUMENTOS
     ip_mandada = argv[1];
