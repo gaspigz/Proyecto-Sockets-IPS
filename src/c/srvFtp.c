@@ -6,20 +6,34 @@
 #include <string.h> 
 #include <arpa/inet.h> 
 
+int leerMensajes(int new_socket, char message[]){
+    int valread;
+    char *quitMSG = "El cliente se desconecto";
+     
+
+    if (read( new_socket , message, 1024)) < 0) //Aca message es el mensaje que recibimos
+    { 
+        perror("No se pudo leer el mensaje"); 
+        exit(EXIT_FAILURE); 
+    } 
+
+    switch (message):
+        case "quit":
+            send(new_socket , quitMSG , strlen(quitMSG) , 0 );
+            close(server_fd);
+	        close(new_socket);
+            break;
+}
+
 int main(int argc, char *argv[]) 
 { 
 	//server_fd: socket file descriptor; new_socket: el socket de destino; valread: la cant de caracteres que leídos
-    int server_fd, new_socket, valread; 
+    int server_fd, new_socket;
+    char buffer[1024] = {0};  
 	
     struct sockaddr_in address; //Socket por donde el servidor escucha
     
-	//int opt = 1; 
-    
-	int addrlen = sizeof(address); 
-		
-	char buffer[1024] = {0}; 
-    
-	char *hello = "Hello from server"; 
+	int addrlen = sizeof(address);  
 	
     int puertoSocket; //En este trabajo, se pidió que sea el 21
 	
@@ -64,22 +78,20 @@ int main(int argc, char *argv[])
         perror("accept"); 
         exit(EXIT_FAILURE); 
     } 
-
+    //Si acepta, se queda escuchando por el nuevo socket y almacena lo recibido en el buffer
     //Si pasamos estos 3 if sin errores, es que el servidor está escuchando en el puerto que le piden
     printf("El servidor está escuchando en el puerto %d\n", puertoSocket);
 	
-	//Si acepta, se queda escuchando por el nuevo socket y almacena lo recibido en el buffer
-    valread = read( new_socket , buffer, 1024); 
-
-    printf("%s\n",buffer ); 
+	 //Lectura
+    leerMensajes(new_socket, buffer);
 
 	//Envía una respuesta al cliente
+    char *hello = "Hello from server";
     send(new_socket , hello , strlen(hello) , 0 ); 
 
     printf("Hello message sent\n"); 
 
-	close(server_fd);
-	close(new_socket);
+	
     return 0; 
 } 
  

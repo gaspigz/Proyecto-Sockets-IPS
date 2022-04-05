@@ -6,13 +6,13 @@
 #include <unistd.h> 
 #include <arpa/inet.h> 
 #include <stdlib.h> 
-#define maxBufferDef 1024
+#define MAX_BUFFER_DEF 1024
 
 int enviarMensajes(int socket_desc){
 	char *message;
 	int valread;
-	char temp[maxBufferDef];
-	char buffer[maxBufferDef] = {0}; //Para almacenar mensajes recibidos
+	char temp[MAX_BUFFER_DEF];
+	char buffer[MAX_BUFFER_DEF] = {0}; //Para almacenar mensajes recibidos
 	printf("Ingrese el mensaje que desea enviar: ");
 	scanf("%[^\n]", temp)  ; 	
 	getchar() ;	
@@ -20,7 +20,7 @@ int enviarMensajes(int socket_desc){
 	message = malloc(sizeof(char) * strlen(temp) + 1) ;	//ACORDARSE DEL FREE
 	
 
-	strcpy(message, temp)  ; 
+	strcpy(message, temp); 
 	
 	printf("\n");
 
