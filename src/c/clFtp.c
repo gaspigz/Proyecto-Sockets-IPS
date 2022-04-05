@@ -6,13 +6,22 @@
 #include <unistd.h> 
 #include <arpa/inet.h> 
 #include <stdlib.h> 
+#define maxBufferDef 1024
 
 int enviarMensajes(int socket_desc){
-	char message[1000];
+	char *message;
 	int valread;
-	char buffer[1024] = {0}; //Para almacenar mensajes recibidos
+	char temp[maxBufferDef];
+	char buffer[maxBufferDef] = {0}; //Para almacenar mensajes recibidos
 	printf("Ingrese el mensaje que desea enviar: ");
-	scanf("%s",&message);
+	scanf("%[^\n]", temp)  ; 	
+	getchar() ;	
+	
+	message = malloc(sizeof(char) * strlen(temp) + 1) ;	//ACORDARSE DEL FREE
+	
+
+	strcpy(message, temp)  ; 
+	
 	printf("\n");
 
 	if( send(socket_desc , message , strlen(message) , 0) < 0)
@@ -27,6 +36,7 @@ int enviarMensajes(int socket_desc){
 
     printf("Logré leer: %d. %s\n",valread, buffer );
 
+	free(message);
 	return 0;
 }
 
@@ -38,7 +48,6 @@ int main(int argc , char *argv[])
     char *ip_mandada;
 	
     int puerto_mandado; //En este trabajo, se pidió que sea el 21
-	
     
     //PASAMOS DATOS POR ARGUMENTOS
     ip_mandada = argv[1];
@@ -73,6 +82,7 @@ int main(int argc , char *argv[])
     //Send some data
 	enviarMensajes(socket_desc);	
 	 
+	close(socket_desc);
 
 	return 0;
 }

@@ -67,6 +67,7 @@ int main(int argc, char *argv[])
 
     //Si pasamos estos 3 if sin errores, es que el servidor está escuchando en el puerto que le piden
     printf("El servidor está escuchando en el puerto %d\n", puertoSocket);
+	
 	//Si acepta, se queda escuchando por el nuevo socket y almacena lo recibido en el buffer
     valread = read( new_socket , buffer, 1024); 
 
@@ -77,6 +78,8 @@ int main(int argc, char *argv[])
 
     printf("Hello message sent\n"); 
 
+	close(server_fd);
+	close(new_socket);
     return 0; 
 } 
  
