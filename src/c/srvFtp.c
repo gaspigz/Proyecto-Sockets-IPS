@@ -6,23 +6,24 @@
 #include <string.h> 
 #include <arpa/inet.h> 
 
-int leerMensajes(int new_socket, char message[]){
+int leerMensajes(int new_socket, char message[], int server_fd){
     int valread;
     char *quitMSG = "El cliente se desconecto";
      
 
-    if (read( new_socket , message, 1024)) < 0) //Aca message es el mensaje que recibimos
+    if ((read( new_socket , message, 1024)) < 0) //Aca message es el mensaje que recibimos
     { 
         perror("No se pudo leer el mensaje"); 
         exit(EXIT_FAILURE); 
     } 
 
-    switch (message):
-        case "quit":
-            send(new_socket , quitMSG , strlen(quitMSG) , 0 );
-            close(server_fd);
-	        close(new_socket);
-            break;
+    if(strcmp(message, "quit")==0){
+        send(new_socket , quitMSG , strlen(quitMSG) , 0 );
+        close(server_fd);
+	    close(new_socket);
+        return 0;
+    }
+        
 }
 
 int main(int argc, char *argv[]) 
@@ -83,7 +84,7 @@ int main(int argc, char *argv[])
     printf("El servidor está escuchando en el puerto %d\n", puertoSocket);
 	
 	 //Lectura
-    leerMensajes(new_socket, buffer);
+    leerMensajes(new_socket, buffer, server_fd);
 
 	//Envía una respuesta al cliente
     char *hello = "Hello from server";
