@@ -47,7 +47,7 @@ void* cmdServer(char* message){
 int cmdAdmin(char* message, int socket_server, int socket_client, struct sockaddr_in* addressP){
 	int flagEND = 0 ; // Esta variable indicará si se finalizó la sesión. 0 = no; 1 = sí.
 	
-	enviarMensajes(socket_client,"Ingrese un comando (HELP para la lista de comandos) \n:: ",0) ;
+	enviarMensajes(socket_client,"Ingrese un comando (HELP para la lista de comandos) \n:: ") ;
 	char *comando = malloc(sizeof(char) * MAX_BUFFER_DEF) ;
 	leerMensajes(socket_client,comando);	
 	
@@ -56,7 +56,7 @@ int cmdAdmin(char* message, int socket_server, int socket_client, struct sockadd
 	if (exec_cmd == cmd_QUIT) flagEND = 1 ;
 
 	while(exec_cmd == NULL){
-		enviarMensajes(socket_client,"\nComando invalido. Por favor, vuelva a ingresar un comando. (El comando ""HELP"" muestra la lista de comandos).\n:: ",0) ;
+		enviarMensajes(socket_client,"\nComando invalido. Por favor, vuelva a ingresar un comando. (El comando ""HELP"" muestra la lista de comandos).\n:: ") ;
 		leerMensajes(socket_client,comando);
 
 		exec_cmd = cmdServer(comando) ;

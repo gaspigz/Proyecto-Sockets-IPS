@@ -1,4 +1,14 @@
+#include <unistd.h> 
+#include <stdio.h> 
+#include <sys/socket.h> 
+#include <stdlib.h> 
+#include <netinet/in.h> 
+#include <string.h> 
+#include <arpa/inet.h>
+#define MAX_BUFFER_DEF 1024
 #define __MESSAGESCONTROL_H__
+
+//TODO: Eliminar includes redundantes de los otros archivos.
 
 #include <stddef.h>
 
@@ -8,6 +18,6 @@
 int leerMensajes(int socket_emisor, char message[]);
 
 /**
-* enviarMensajes: envía un mensaje a socket_desc. Puede funcionar para servidor (serverOrClient = 0) o cliente (serverOrClient = 1), aunque esta bandera sólo cambia si el mensaje ya está almacenado en message o si se debe pedir al usuario que lo ingrese. 
+* enviarMensajes: envía un mensaje a socket_desc. 
 */
-int enviarMensajes(int socket_desc, char* message, int serverOrClient);
+int enviarMensajes(int socket_desc, char* message);

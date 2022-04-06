@@ -8,11 +8,11 @@
 #include <arpa/inet.h>
 #define MAX_BUFFER_DEF 1024
 
-int leerMensajes(int socket_emisor, char message[]){
+int leerMensajes(int socket_emisor, char* message){
 
     if ((read( socket_emisor, message, 1024)) < 0) //Aca message es el mensaje que recibimos
     { 
-        perror("No se pudo leer el mensaje"); 
+        perror("No se pudo leer el mensaje: "); 
         exit(EXIT_FAILURE); 
     } 
 	
@@ -21,20 +21,11 @@ int leerMensajes(int socket_emisor, char message[]){
         
 }
 
-int enviarMensajes(int socket_desc, char *message, int serverOrClient){ //1 = client, 0 = server
-	
-	if(serverOrClient){ //Si es cliente
-		char temp[MAX_BUFFER_DEF];
-		
-		printf("Ingrese el mensaje que desea enviar: ");
-		scanf("%[^\n]", temp)  ; 	
-		getchar() ;	
-		
-		message = malloc(sizeof(char) * strlen(temp) + 1);
-		
-		strcpy(message, temp); 
-	}
-	
+
+//Pato: ¿No seria mejor que esta funcion funcione para tanto server como
+//cliente sin necesidad de "serverOrClient"? Tipo, que le mandes directamente el mensaje y lo envie al socket
+//que le mandes. (Lo puedo hacer yo)
+int enviarMensajes(int socket_desc, char *message){
 	if( send(socket_desc, message, strlen(message), 0) < 0)
 	{
 		puts("Send failed");
@@ -42,7 +33,5 @@ int enviarMensajes(int socket_desc, char *message, int serverOrClient){ //1 = cl
 	}
 	
 	puts("Data Sent\n");
-
-	if(serverOrClient) free(message);
 	return 0;
 }

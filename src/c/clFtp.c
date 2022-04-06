@@ -15,6 +15,8 @@ int main(int argc , char *argv[])
 	int socket_desc; //ESTA ES LA DESCRIPCION DEL SOCKET QUE SE CREA CON socket()
 	
     char *ip_mandada;
+
+	char temp[MAX_BUFFER_DEF]; //String temporal para guardar cadenas de char de manera dinamica
 	
     int puerto_mandado; //En este trabajo, se pidió que sea el 21
     
@@ -50,9 +52,16 @@ int main(int argc , char *argv[])
 	
     //Send some data
 	
-	for(int i = 0; i < 5; i++){
+	for(int i = 0; i < 5; i++){								//TODO: Hacer una funcion que haga esto (Y quizas una libreria?)
 		char* message = NULL;
-		enviarMensajes(socket_desc, message, 1);	
+		printf("Ingrese el mensaje que desea enviar: ");
+		scanf("%[^\n]", temp)  ; 	
+		getchar() ;	
+		message = malloc(sizeof(char) * strlen(temp) + 1);
+		
+		strcpy(message, temp); 
+		enviarMensajes(socket_desc, message);
+		free(message);	
 	
 	}
 	// TODO: que si el cliente manda "quit" se desconecte.
