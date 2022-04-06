@@ -1,44 +1,13 @@
 //Recibe como argumento una IP y el puerto que le pusimos al sv
 //Ejemplo: ./clFtp
+
+#include "messagesControl.h"
 #include <stdio.h>
 #include <string.h>
 #include <sys/socket.h> 
 #include <unistd.h> 
 #include <arpa/inet.h> 
 #include <stdlib.h> 
-#define MAX_BUFFER_DEF 1024
-
-int enviarMensajes(int socket_desc){
-	char *message;
-	int valread;
-	char temp[MAX_BUFFER_DEF];
-	char buffer[MAX_BUFFER_DEF] = {0}; //Para almacenar mensajes recibidos
-	printf("Ingrese el mensaje que desea enviar: ");
-	scanf("%[^\n]", temp)  ; 	
-	getchar() ;	
-	
-	message = malloc(sizeof(char) * strlen(temp) + 1) ;	//ACORDARSE DEL FREE
-	
-
-	strcpy(message, temp); 
-	
-	printf("\n");
-
-	if( send(socket_desc , message , strlen(message) , 0) < 0)
-	{
-		puts("Send failed");
-		return 1;
-	}
-	
-	puts("Data Send\n");
-
-	valread = read(socket_desc, buffer, 1024); 
-
-    printf("Logré leer: %d. %s\n",valread, buffer );
-
-	free(message);
-	return 0;
-}
 
 int main(int argc , char *argv[])
 {
@@ -80,8 +49,14 @@ int main(int argc , char *argv[])
 	puts("Connected");
 	
     //Send some data
-	enviarMensajes(socket_desc);	
-	 
+	
+	for(int i = 0; i < 5; i++){
+		char* message = NULL;
+		enviarMensajes(socket_desc, message, 1);	
+	
+	}
+	// TODO: que si el cliente manda "quit" se desconecte.
+	
 	close(socket_desc);
 
 	return 0;
