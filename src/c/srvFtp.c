@@ -1,47 +1,5 @@
-#include <unistd.h> 
-#include <stdio.h> 
-#include <sys/socket.h> 
-#include <stdlib.h> 
-#include <netinet/in.h> 
-#include <string.h> 
-#include <arpa/inet.h> 
 #include "messagesControl.h"
 #define MAX_BUFFER_DEF 1024
-
-//Falta todo lo de los códigos de error y las funciones user y pass (eso incluye crear un struct usuario y almacenar los datos ahí. E implementar bien todo eso en el cliente
-
-void cmd_QUIT (int socket_server, int socket_client, struct sockaddr_in* addressP){
-		printf("\ncmd QUIT\n");
-		close(socket_client);
-		close(socket_server);		
-}
-
-void cmd_USER (int socket_server, int socket_client, struct sockaddr_in* addressP){
-		printf("\ncmd USER\n");
-}
-
-void cmd_PASS (int socket_server, int socket_client, struct sockaddr_in* addressP){
-		printf("\ncmd PASS\n");
-}
-
-void* cmdServer(char* message){
-	//Verifico si el mensaje contiene algún comando
-	// Note that strstr returns a pointer to the start of the word in sent if the word word is found, otherwise it returns NULL.
-	
-	//Si el mensaje contiene el comando "USER" y este comienza en el primer caracter enviado
-	if(strstr(message,"USER") == message)
-		return &cmd_USER;
-
-	//Si el mensaje contiene el comando "PASS" y este comienza en el primer caracter enviado
-	if(strstr(message,"PASS") == message)
-		return &cmd_PASS;
-	
-	//Si el mensaje contiene el comando "QUIT" y este comienza en el primer caracter enviado
-	if(strstr(message,"QUIT") == message)
-		return &cmd_QUIT;
-	
-	return NULL;
-}
 
 
 int cmdAdmin(char* message, int socket_server, int socket_client, struct sockaddr_in* addressP){
@@ -93,7 +51,7 @@ int main(int argc, char *argv[]) {
     address.sin_port = htons(puertoSocket); //htons(80) ES LA FUNCION QUE OBTIENE EL PUERTO
 
       
-    if (bind(server_fd, (struct sockaddr *)&address, addrlen)<0){ //LE ASIGNA LA DIRECCION AL SOCKET
+    if (bind(server_fd, (struct sockaddr *)&address, addrlen) < 0){ //LE ASIGNA LA DIRECCION AL SOCKET
         perror("bind failed"); 
         exit(EXIT_FAILURE); 
     } 

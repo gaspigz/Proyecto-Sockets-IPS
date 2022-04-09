@@ -2,36 +2,23 @@
 //Ejemplo: ./clFtp
 
 #include "messagesControl.h"
-#include <stdio.h>
-#include <string.h>
-#include <sys/socket.h> 
-#include <unistd.h> 
-#include <arpa/inet.h> 
-#include <stdlib.h> 
 
 int main(int argc , char *argv[])
 {
     //SOCKET CREATION
 	int socket_desc; //ESTA ES LA DESCRIPCION DEL SOCKET QUE SE CREA CON socket()
-	
-    char *ip_mandada;
-
+    int puerto_mandado = puerto_mandado = atoi(argv[2]); //En este trabajo, se pidió que sea el 21
+	char *ip_mandada = argv[1];
 	char temp[MAX_BUFFER_DEF]; //String temporal para guardar cadenas de char de manera dinamica
-	
-    int puerto_mandado; //En este trabajo, se pidió que sea el 21
     
-    //PASAMOS DATOS POR ARGUMENTOS
-    ip_mandada = argv[1];
-    puerto_mandado = atoi(argv[2]);
-
-    printf("IP MANDADA: %s\tPUERTO MANDADO: %d\n\n", ip_mandada, puerto_mandado);
+    printf("IP MANDADA: %s\tPUERTO MANDADO: %d\n\n", ip_mandada, puerto_mandado); //Print temporal
 
 	// SOCK_STREAM DETERMINA QUE USAREMOS TCP, AF_INET ES EL TIPO DE IP (IPv4) Y EL 0 PROTOCOLO IP (default). Si hay un error de creación del socket, devuelve -1.
-	socket_desc = socket(AF_INET , SOCK_STREAM , 0); 
+	socket_desc = socket(AF_INET, SOCK_STREAM, 0);
 	
 	if (socket_desc == -1)
 	{
-		printf("Could not create socket");
+		perror("Could not create socket");
 	}
 	
     struct sockaddr_in server; //server ES UNA STRUCT DE TIPO sockaddr_in
@@ -42,7 +29,7 @@ int main(int argc , char *argv[])
 	server.sin_port = htons( puerto_mandado );  //htons(80) ES LA FUNCION QUE OBTIENE EL PUERTO
 
 	//Connect to remote server
-	if (connect(socket_desc , (struct sockaddr *)&server , sizeof(server)) < 0)
+	if (connect(socket_desc, (struct sockaddr *)&server, sizeof(server)) < 0)
 	{
 		puts("connect error");
 		return 1;
@@ -52,7 +39,7 @@ int main(int argc , char *argv[])
 	
     //Send some data
 	
-	for(int i = 0; i < 5; i++){								//TODO: Hacer una funcion que haga esto (Y quizas una libreria?)
+	for(int i = 0; i < 5; i++){				//TODO: Hacer una funcion que haga esto (Y quizas una libreria?)
 		char* message = NULL;
 		printf("Ingrese el mensaje que desea enviar: ");
 		scanf("%[^\n]", temp)  ; 	

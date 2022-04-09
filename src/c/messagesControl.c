@@ -16,15 +16,13 @@ int leerMensajes(int socket_emisor, char* message){
         exit(EXIT_FAILURE); 
     } 
 	
+    fflush(stdout);
     printf("Mensaje recibido: %s\n", message); // Para comprobar, eliminar al terminar el código
     return 0;
         
 }
 
 
-//Pato: ¿No seria mejor que esta funcion funcione para tanto server como
-//cliente sin necesidad de "serverOrClient"? Tipo, que le mandes directamente el mensaje y lo envie al socket
-//que le mandes. (Lo puedo hacer yo)
 int enviarMensajes(int socket_desc, char *message){
 	if( send(socket_desc, message, strlen(message), 0) < 0)
 	{
